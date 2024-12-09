@@ -3,7 +3,7 @@ import { evaluate } from "mathjs";
 import "./cal.css";
 
 function Calculator() {
-  const [value, setValue] = useState(""); // State for expression and result
+  const [value, setValue] = useState("");
 
   const handleEvaluate = () => {
     try {
@@ -19,8 +19,6 @@ function Calculator() {
         setValue("Infinity");
         return;
       }
-
-      // Evaluate the expression using mathjs
       const result = evaluate(value);
       setValue(result.toString());
     } catch (error) {
@@ -31,7 +29,13 @@ function Calculator() {
   return (
     <div className="container">
       <div className="calculator">
-        <div className="display">{value || "0"}</div>
+        <input
+          className="display"
+          type="text"
+          value={value || "0"}
+          data-testid="calculator-display"
+          readOnly
+        />
         <div>
           <button onClick={() => setValue(value + "7")}>7</button>
           <button onClick={() => setValue(value + "8")}>8</button>
