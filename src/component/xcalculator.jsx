@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { evaluate } from "mathjs"; // For mathematical expression evaluation
-import "./cal.css"; // Add basic CSS for styling (optional)
+import { evaluate } from "mathjs"; // Import math.js for evaluating expressions
+import "./cal.css"; // Import your CSS file for styling
 
 const Calculator = () => {
-  const [input, setInput] = useState(""); // Tracks user input and result
+  const [input, setInput] = useState(""); // For storing the current expression
 
-  // Append a value to the input
+  // Append value to the input
   const appendValue = (value) => {
     if (["Error", "NaN", "Infinity"].includes(input)) {
-      setInput(""); // Clear if an error is displayed
+      setInput(""); // Reset if there's an error
     }
     setInput((prev) => prev + value);
   };
@@ -18,7 +18,7 @@ const Calculator = () => {
     setInput("");
   };
 
-  // Calculate the result based on the input
+  // Calculate the result
   const calculate = () => {
     try {
       if (!input) {
@@ -26,19 +26,19 @@ const Calculator = () => {
         return;
       }
 
+      // Handle division by zero cases manually
       if (input.includes("/0")) {
-        // Handle division by zero cases
         if (input === "0/0") {
-          setInput("NaN"); // 0 divided by 0
+          setInput("NaN");
         } else {
-          setInput("Infinity"); // Any number divided by 0
+          setInput("Infinity");
         }
         return;
       }
 
-      // Evaluate the expression using `mathjs`
+      // Use math.js to evaluate the input expression
       const result = evaluate(input);
-      setInput(result.toString());
+      setInput(result.toString()); // Update input field with result
     } catch (error) {
       setInput("Error"); // Handle invalid expressions
     }
@@ -47,8 +47,13 @@ const Calculator = () => {
   return (
     <div className="calculator">
       {/* Input Field */}
-      <input type="text" className="display" value={input} readOnly />
-
+      <input
+        type="text"
+        className="display"
+        value={input}
+        readOnly
+        aria-label="calculator-display"
+      />
       {/* Buttons */}
       <div className="buttons">
         {[
@@ -73,18 +78,21 @@ const Calculator = () => {
             key={btn}
             onClick={() => {
               if (btn === "C") {
-                clearInput(); // Clear input
+                clearInput();
               } else if (btn === "=") {
-                calculate(); // Calculate result
+                calculate();
               } else {
-                appendValue(btn); // Append button value
+                appendValue(btn);
               }
             }}
+            aria-label={`button-${btn}`}
           >
             {btn}
           </button>
         ))}
       </div>
+      {/* Result Display */}
+      <div className="result">{/* Output will be displayed here */}</div>
     </div>
   );
 };
