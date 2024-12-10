@@ -1,32 +1,88 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: linear-gradient(
+    135deg,
+    #74ebd5,
+    #9face6
+  ); /* Gradient background for the whole page */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 .calculator {
-  width: 300px;
-  margin: 0 auto;
-  text-align: center;
-  border: 2px solid #ccc;
+  background: linear-gradient(
+    135deg,
+    #2e8092,
+    #c9dc19
+  ); /* Gradient background for the calculator container */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  border-radius: 5px;
+  width: 320px;
+  text-align: center;
+}
+
+h1 {
+  color: #fff;
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
 .input-box {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 10px;
+  font-size: 24px;
+  text-align: right;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+  color: #333;
+}
+
+.result {
+  font-size: 20px;
+  color: #ff3b3b; /* Error message in red */
+  margin-top: 10px;
 }
 
 .buttons {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 10px;
+  gap: 10px;
 }
 
-.buttons button {
-  padding: 15px;
+button {
+  padding: 20px;
   font-size: 18px;
-  border: 2px solid #333;
-  border-radius: 5px;
-  background-color: #f0f0f0;
+  background: linear-gradient(
+    145deg,
+    #ffffff,
+    #f0f0f0
+  ); /* Subtle gradient on buttons */
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-.buttons button:hover {
-  background-color: #ddd;
+button:nth-child(15),
+button:nth-child(16) {
+  background: linear-gradient(
+    135deg,
+    #fd689a,
+    #e53935
+  ); /* Red gradient for clear and equal buttons */
+  color: white;
 }
