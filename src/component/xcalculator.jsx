@@ -1,68 +1,91 @@
 import React, { useState } from "react";
-import { evaluate } from "mathjs";
+import { evaluate } from "mathjs"; // Import math.js for evaluating expressions
 import "./cal.css";
 
-function Calculator() {
-  const [value, setValue] = useState("");
+const Calculator = () => {
+  const [input, setInput] = useState("");
 
-  const handleEvaluate = () => {
+  // Append value to the input
+  const appendValue = (value) => {
+    if (["Error", "NaN", "Infinity"].includes(input)) {
+      setInput(""); // Reset if there's an error
+    }
+    setInput((prev) => prev + value);
+  };
+
+  // Clear the input field
+  const clearInput = () => {
+    setInput("");
+  };
+
+  // Calculate the result
+  const calculate = () => {
     try {
-      if (value === "") {
-        setValue("Error");
+      if (!input) {
+        setInput("Error"); // Handle empty input
         return;
       }
-      if (value === "0/0") {
-        setValue("NaN");
+
+      if (input.includes("/0")) {
+        if (input === "0/0") {
+          setInput("NaN");
+        } else {
+          setInput("Infinity");
+        }
         return;
       }
-      if (value.includes("/0")) {
-        setValue("Infinity");
-        return;
-      }
-      const result = evaluate(value);
-      setValue(result.toString());
+
+      // Use math.js to evaluate the input expression
+      const result = evaluate(input);
+      setInput(result.toString());
     } catch (error) {
-      setValue("Error");
+      setInput("Error"); // Handle invalid expressions
     }
   };
 
   return (
-    <div className="container">
-      <div className="calculator">
-        <input
-          className="display"
-          type="text"
-          value={value || "0"}
-          data-testid="calculator-display"
-          readOnly
-        />
-        <div>
-          <button onClick={() => setValue(value + "7")}>7</button>
-          <button onClick={() => setValue(value + "8")}>8</button>
-          <button onClick={() => setValue(value + "9")}>9</button>
-          <button onClick={() => setValue(value + "+")}>+</button>
-        </div>
-        <div>
-          <button onClick={() => setValue(value + "4")}>4</button>
-          <button onClick={() => setValue(value + "5")}>5</button>
-          <button onClick={() => setValue(value + "6")}>6</button>
-          <button onClick={() => setValue(value + "-")}>-</button>
-        </div>
-        <div>
-          <button onClick={() => setValue(value + "1")}>1</button>
-          <button onClick={() => setValue(value + "2")}>2</button>
-          <button onClick={() => setValue(value + "3")}>3</button>
-          <button onClick={() => setValue(value + "*")}>*</button>
-        </div>
-        <div>
-          <button onClick={() => setValue("")}>C</button>
-          <button onClick={() => setValue(value + "0")}>0</button>
-          <button onClick={handleEvaluate}>=</button>
-          <button onClick={() => setValue(value + "/")}>/</button>
-        </div>
+    <div className="calculator">
+      {/* Input Field */}
+      <input type="text" className="display" value={input} readOnly />
+
+      {/* Buttons */}
+      <div className="buttons">
+        {[
+          "7",
+          "8",
+          "9",
+          "+",
+          "4",
+          "5",
+          "6",
+          "-",
+          "1",
+          "2",
+          "3",
+          "*",
+          "C",
+          "0",
+          "=",
+          "/",
+        ].map((btn) => (
+          <button
+            key={btn}
+            onClick={() => {
+              if (btn === "C") {
+                clearInput();
+              } else if (btn === "=") {
+                calculate();
+              } else {
+                appendValue(btn);
+              }
+            }}
+          >
+            {btn}
+          </button>
+        ))}
       </div>
     </div>
   );
-}
+};
 
 export default Calculator;
