@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { evaluate } from "mathjs"; // Import math.js for evaluating expressions
-import "./cal.css";
+import { evaluate } from "mathjs"; // For mathematical expression evaluation
+import "./cal.css"; // Add basic CSS for styling (optional)
 
 const Calculator = () => {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState(""); // Tracks user input and result
 
-  // Append value to the input
+  // Append a value to the input
   const appendValue = (value) => {
     if (["Error", "NaN", "Infinity"].includes(input)) {
-      setInput(""); // Reset if there's an error
+      setInput(""); // Clear if an error is displayed
     }
     setInput((prev) => prev + value);
   };
@@ -18,7 +18,7 @@ const Calculator = () => {
     setInput("");
   };
 
-  // Calculate the result
+  // Calculate the result based on the input
   const calculate = () => {
     try {
       if (!input) {
@@ -27,15 +27,16 @@ const Calculator = () => {
       }
 
       if (input.includes("/0")) {
+        // Handle division by zero cases
         if (input === "0/0") {
-          setInput("NaN");
+          setInput("NaN"); // 0 divided by 0
         } else {
-          setInput("Infinity");
+          setInput("Infinity"); // Any number divided by 0
         }
         return;
       }
 
-      // Use math.js to evaluate the input expression
+      // Evaluate the expression using `mathjs`
       const result = evaluate(input);
       setInput(result.toString());
     } catch (error) {
@@ -72,11 +73,11 @@ const Calculator = () => {
             key={btn}
             onClick={() => {
               if (btn === "C") {
-                clearInput();
+                clearInput(); // Clear input
               } else if (btn === "=") {
-                calculate();
+                calculate(); // Calculate result
               } else {
-                appendValue(btn);
+                appendValue(btn); // Append button value
               }
             }}
           >
